@@ -24,6 +24,7 @@ class BotToastNavigatorObserver extends NavigatorObserver {
   static bool debugInitialization = false;
 
   BotToastNavigatorObserver() {
+    /*使用assert 来区分 debug 模式*/
     assert(() {
       debugInitialization = true;
       return true;

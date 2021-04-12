@@ -10,6 +10,7 @@ BotToastManagerState get botToastManager {
   return _key.currentState!;
 }
 
+/*todo gy WidgetsBindingObserver监听系统的各种状态改变 */
 class BotToastWidgetsBindingObserver with WidgetsBindingObserver {
   BotToastWidgetsBindingObserver._() : _listener = <PopTestFunc>[] {
     WidgetsBinding.instance!.addObserver(this);
@@ -22,6 +23,7 @@ class BotToastWidgetsBindingObserver with WidgetsBindingObserver {
 
   static BotToastWidgetsBindingObserver get singleton => _singleton;
 
+  /*注册 监听*/
   VoidCallback registerPopListener(PopTestFunc popTestFunc) {
     assert(_listener != null);
     _listener.add(popTestFunc);
@@ -30,6 +32,7 @@ class BotToastWidgetsBindingObserver with WidgetsBindingObserver {
     };
   }
 
+  /*todo 监听页面出栈 也相当于监听返回按键*/
   @override
   Future<bool> didPopRoute() async {
     if (_listener.isNotEmpty) {

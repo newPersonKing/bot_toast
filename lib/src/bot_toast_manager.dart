@@ -45,11 +45,13 @@ class BotToastManagerState extends State<BotToastManager> {
       })
         ..sort((a, b) => a.index.compareTo(b.index));
 
+  /*todo gy 保存widget 记录 并展示widget*/
   void insert(String groupKey, UniqueKey key, Widget widget) {
     safeRun(() {
       _map[groupKey] ??= {};
       final uniqueKey = UniqueKey();
 
+      /*todo gy 创建 ProxyInitState 只是用来监听 initState 执行时机*/
       widget = ProxyInitState(
         initStateCallback: () {
           _pending.remove(key);
@@ -57,6 +59,7 @@ class BotToastManagerState extends State<BotToastManager> {
         child: widget,
       );
 
+      /*todo gy 监听 widget 销毁 移除保存的信息*/
       widget = ProxyDispose(
         child: widget,
         disposeCallback: () {

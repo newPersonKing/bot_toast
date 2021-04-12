@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: BotToastInit(),
+      /*builder 在每个页面创建的时候 都会回调这里 参数 child 就是自己的页面内容 也就是说这个方法 返回的才是最终显示的内容 也就是说可以在这里对页面的某些属性进行统一配置*/
       title: 'BotToast Demo',
       navigatorObservers: [BotToastNavigatorObserver()],
       home: EnterPage(),

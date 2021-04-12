@@ -22,10 +22,10 @@ class _CustomTextState extends State<CustomText> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("CustomText"),
+        title: const Text("CustomText"),
       ),
       body: Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 10),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,

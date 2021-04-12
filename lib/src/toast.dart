@@ -653,6 +653,7 @@ class BotToast {
     Duration? duration,
     VoidCallback? onClose,
   }) {
+    /*todo 创建AnimationController*/
     AnimationController controller = _createAnimationController(
         animationDuration,
         reverseDuration: animationReverseDuration);
@@ -672,6 +673,7 @@ class BotToast {
         closeFunc: () => controller.reverse(),
         duration: duration,
         warpWidget: (cancel, child) => ProxyInitState(
+              /*initState 执行 动画执行*/
               initStateCallback: () {
                 assert(!controller.isAnimating);
                 controller.forward();
@@ -774,7 +776,9 @@ class BotToast {
     //onlyOne 功能
     final List<CancelFunc> cache =
         (cacheCancelFunc[groupKey ?? defaultKey] ??= []);
+    /*todo onlyOne 是否只显示一个*/
     if (onlyOne) {
+      /*取消之前的所有*/
       final clone = cache.toList();
       cache.clear();
       clone.forEach((cancel) {
@@ -794,7 +798,9 @@ class BotToast {
 
     //跨页自动关闭
     BotToastNavigatorObserverProxy? observerProxy;
+    /*crossPage 决定跨页面的时候 是否取消上一页的弹窗*/
     if (!crossPage) {
+      /*页面跳转的时候 会执行dismissFunc 取消上一个页面的loading*/
       observerProxy = BotToastNavigatorObserverProxy.all(dismissFunc);
       BotToastNavigatorObserver.register(observerProxy);
     }
@@ -809,7 +815,9 @@ class BotToast {
     } else if (backButtonBehavior == BackButtonBehavior.close) {
       unRegisterFunc =
           BotToastWidgetsBindingObserver.singleton.registerPopListener(() {
+        /*todo gy 先移除自身*/
         dismissFunc();
+        /*todo gy 调用 unRegisterFunc 移除注册的对应的监听 */
         unRegisterFunc?.call();
         unRegisterFunc = null;
         return true;
@@ -820,9 +828,11 @@ class BotToast {
         groupKey: groupKey,
         key: key,
         toastBuilder: (_) {
+          /*enableKeyboardSafeArea 为true 当软键盘弹出的时候 内容会上移*/
           return KeyboardSafeArea(
             enable: enableKeyboardSafeArea,
             child: ProxyDispose(disposeCallback: () {
+              /*清理资源*/
               cache.remove(dismissFunc);
               if (observerProxy != null) {
                 BotToastNavigatorObserver.unregister(observerProxy);
@@ -836,6 +846,7 @@ class BotToast {
               Widget child = DefaultTextStyle(
                   style: textStyle,
                   child: Stack(children: <Widget>[
+                    /*一个可点击的巨大box*/
                     Listener(
                       onPointerDown: clickClose ? (_) => dismissFunc() : null,
                       behavior: allowClick
